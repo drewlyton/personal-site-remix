@@ -2,7 +2,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:css:* && remix build",
+    "build": "concurrently \"npm run build:css:*\" \"remix build\"",
     "build:css:tailwind": "tailwindcss -m -i ./config/styles/main.css -o app/styles/app.css",
     "build:css:scss": "node-sass ./config/styles -o ./config/styles --output-style compressed",
     "dev": "concurrently \"npm run dev:css:*\" \"remix dev\"",
