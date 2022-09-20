@@ -10,7 +10,6 @@ import Me from "../animations/Me";
 import ProductAni from "../animations/ProductAni";
 import VideoAni from "../animations/VideoAni";
 import StoriesSection from "../components/StoriesSection";
-import { motion } from "framer-motion";
 
 interface LoaderData {
   productStories: IStory[];

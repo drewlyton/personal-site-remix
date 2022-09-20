@@ -14,7 +14,7 @@ const StoriesSection: React.FC<Props> = ({
   id,
   stories,
   animation,
-  children,
+  children
 }) => {
   return (
     <section id={id} className="pb-16 max-w-prose mx-auto">

@@ -1,5 +1,5 @@
 import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import Story from "~/components/Story";
 import { client } from "~/data/client";
@@ -7,7 +7,6 @@ import GetHighlighted from "~/data/GetHighlighted";
 import GetStories from "~/data/GetStories";
 import type IStory from "~/data/Story";
 import { filterStories } from "~/helpers/filterStories";
-import { motion } from "framer-motion";
 
 interface LoaderData {
   stories: IStory[];
