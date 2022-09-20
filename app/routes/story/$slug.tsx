@@ -1,7 +1,8 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { MDXRemote } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
+import { bundleMDX } from "~/helpers/mdx.server";
+import { useMemo } from "react";
 import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
 import remarkMath from "remark-math";
@@ -9,9 +10,11 @@ import { client } from "~/data/client";
 import GetStory from "~/data/GetStory";
 import type IStory from "~/data/Story";
 import routes from "~/helpers/routes";
+import { getMDXComponent } from "mdx-bundler/client";
 
 interface LoaderData {
   story: IStory;
+  mdxCode: string;
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -33,14 +36,25 @@ export const loader: LoaderFunction = async ({ params }) => {
     };
   }
 
-  const mdxContent = await serialize(story.mdx, {
-    mdxOptions: {
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex, rehypePrism]
+  const { code } = await bundleMDX({
+    source: story.mdx,
+    mdxOptions(options, frontmatter) {
+      // this is the recommended way to add custom remark/rehype plugins:
+      // The syntax might look weird, but it protects you in case we add/remove
+      // plugins in the future.
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath];
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        rehypeKatex,
+        rehypePrism
+      ];
+
+      return options;
     }
   });
+
   return json(
-    { story: { ...story, mdxContent } },
+    { story, mdxCode: code },
     {
       headers: {
         "Cache-Control": "s-maxage:60, stale-while-revalidate"
@@ -50,7 +64,8 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function Slug() {
-  const { story } = useLoaderData<LoaderData>();
+  const { story, mdxCode } = useLoaderData<LoaderData>();
+  const MDXComponent = useMemo(() => getMDXComponent(mdxCode), [mdxCode]);
 
   return (
     <>
@@ -94,7 +109,7 @@ export default function Slug() {
         dark:prose-invert
       "
         >
-          <MDXRemote {...story.mdxContent} />
+          <MDXComponent />
         </div>
         <div>
           <h5 className="header-font mb-4">Best,</h5>

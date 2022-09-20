@@ -11,7 +11,7 @@ const Story: React.FC<Props> = ({ story }) => {
       <Link to={routes.story(story.slug)}>
         <div
           className={classNames("mb-4 rounded-2xl overflow-hidden relative", {
-            featured: story.highlighted,
+            featured: story.highlighted
           })}
         >
           <img
@@ -27,11 +27,11 @@ const Story: React.FC<Props> = ({ story }) => {
               weekday: "long",
               year: "numeric",
               month: "long",
-              day: "numeric",
+              day: "numeric"
             })}
           </em>
         </div>
-        <p className="text-black dark:text-white">
+        <p className="text-black dark:text-white leading-7">
           {truncateString(story.description, 120)}
         </p>
       </Link>
