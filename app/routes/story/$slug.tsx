@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { bundleMDX } from "~/helpers/mdx.server";
@@ -11,6 +11,7 @@ import GetStory from "~/data/GetStory";
 import type IStory from "~/data/Story";
 import routes from "~/helpers/routes";
 import { getMDXComponent } from "mdx-bundler/client";
+import { metaTags } from "~/helpers/metaTags";
 
 interface LoaderData {
   story: IStory;
@@ -145,3 +146,18 @@ export default function Slug() {
     </>
   );
 }
+
+export const meta: MetaFunction = ({ location, data }) => {
+  const { story } = data as LoaderData;
+
+  return {
+    charset: "utf-8",
+    viewport: "width=device-width,initial-scale=1",
+    ...metaTags({
+      url: location.pathname,
+      description: story.description,
+      coverImage: story.featuredImage.url,
+      title: story.title
+    })
+  };
+};
