@@ -8,6 +8,7 @@ export default gql`
       description
       publishedAt
       mdx
+      preview
       content {
         html
       }

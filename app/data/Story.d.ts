@@ -9,6 +9,7 @@ export default interface IStory {
   slug: string;
   videoUrl: string;
   highlighted: boolean;
+  preview: boolean;
   featuredImage: {
     url: string;
   };

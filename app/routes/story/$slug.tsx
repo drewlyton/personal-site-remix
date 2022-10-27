@@ -18,8 +18,9 @@ interface LoaderData {
   mdxCode: string;
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   const slug = params.slug as string;
+  const previewKey = new URL(request.url).searchParams.get("preview");
   if (!slug) {
     throw new Response("Not Found", {
       status: 404
@@ -32,9 +33,15 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   // Handle event slugs which don't exist in our CMS
   if (!story) {
-    return {
-      notFound: true
-    };
+    throw new Response("Not Found", {
+      status: 404
+    });
+  }
+  console.log(previewKey, process.env.PREVIEW);
+  if (story.preview && previewKey !== process.env.PREVIEW) {
+    throw new Response("Not Found", {
+      status: 404
+    });
   }
 
   const { code } = await bundleMDX({
