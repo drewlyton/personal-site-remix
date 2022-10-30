@@ -4,7 +4,7 @@ export default gql`
   query GetStoriesByTag($tags: [Tags!]) {
     stories(
       orderBy: publishedAt_DESC
-      where: { tags_contains_some: $tags }
+      where: { tags_contains_some: $tags, preview: false }
       first: 2
     ) {
       id
