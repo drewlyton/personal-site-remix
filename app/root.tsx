@@ -34,6 +34,12 @@ export function links() {
     {
       rel: "stylesheet",
       href: prismTheme
+    },
+    {
+      rel: "alternate",
+      type: "application/rss+xml",
+      title: "RSS feed for drewis.cool",
+      href: "/feed.xml"
     }
   ];
 }
