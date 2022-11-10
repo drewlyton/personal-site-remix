@@ -39,7 +39,13 @@ export function links() {
       rel: "alternate",
       type: "application/rss+xml",
       title: "Drew Lytle",
-      href: "/feed.xml"
+      href: "/feed.rss.xml"
+    },
+    {
+      rel: "alternate",
+      type: "application/atom+xml",
+      title: "Drew Lytle",
+      href: "/feed.atom.xml"
     }
   ];
 }
