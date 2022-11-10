@@ -38,7 +38,7 @@ export function links() {
     {
       rel: "alternate",
       type: "application/rss+xml",
-      title: "RSS feed for drewis.cool",
+      title: "Drew Lytle",
       href: "/feed.xml"
     }
   ];
