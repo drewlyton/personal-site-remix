@@ -15,10 +15,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   const rss = feed(origin);
 
   stories.forEach(
-    ({ author, title, id, description, slug, publishedAt, featuredImage }) => {
+    ({ author, title, description, slug, publishedAt, featuredImage }) => {
       rss.addItem({
         title,
-        id,
+        id: storyURL(slug),
         link: storyURL(slug),
         description,
         date: new Date(publishedAt),
@@ -28,7 +28,11 @@ export const loader: LoaderFunction = async ({ request }) => {
             email: "contact@drewis.cool"
           }
         ],
-        image: featuredImage.url
+        image: {
+          url: featuredImage.url,
+          type: "image/jpg",
+          length: 0
+        }
       });
     }
   );
