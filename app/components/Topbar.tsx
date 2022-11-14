@@ -40,6 +40,14 @@ const Topbar = () => {
           >
             Stories
           </NavLink>
+          <a
+            href="https://www.getrevue.co/profile/realizingthought"
+            target={"_blank"}
+            rel="noreferrer"
+            className={`leading-none wave-border bottom`}
+          >
+            Newsletter
+          </a>
           <div>
             <ThemeSwitch />
           </div>
