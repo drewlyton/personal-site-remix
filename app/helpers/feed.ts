@@ -12,7 +12,7 @@ export const feed = (origin: string) =>
       rss: origin + "/feed.xml"
     },
     language: "en",
-    image: origin + "/favicon-32x32.png",
+    image: origin + "/apple-touch-icon.png",
     favicon: origin + "/favicon.ico",
     author: {
       name: "Drew Lytle",
