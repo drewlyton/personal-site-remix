@@ -13,7 +13,7 @@ export const feed = (origin: string) =>
       atom: origin + "/feed.atom.xml"
     },
     language: "en",
-    image: origin + "/apple-touch-icon.png",
+    image: origin + "/favicon-32x32.png",
     favicon: origin + "/favicon.ico",
     author: {
       name: "Drew Lytle",
