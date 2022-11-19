@@ -9,7 +9,8 @@ export const feed = (origin: string) =>
     id: origin,
     copyright: `All rights reserved ${new Date().getFullYear()}, Drew Lytle`,
     feedLinks: {
-      rss: origin + "/feed.xml"
+      rss: origin + "/feed.rss.xml",
+      atom: origin + "/feed.atom.xml"
     },
     language: "en",
     image: origin + "/apple-touch-icon.png",
