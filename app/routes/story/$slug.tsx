@@ -151,10 +151,6 @@ export default function Slug() {
             </div>
           </div>
         </div>
-        <div>
-          <hr />
-          <h3>Subscribe to my newsletter</h3>
-        </div>
       </section>
     </>
   );
