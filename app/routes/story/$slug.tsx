@@ -12,6 +12,8 @@ import type IStory from "~/data/Story";
 import routes from "~/helpers/routes";
 import { getMDXComponent } from "mdx-bundler/client";
 import { metaTags } from "~/helpers/metaTags";
+import prismLine from "~/styles/prism-line-number.css";
+import prismTheme from "~/styles/prism-nightowl.css";
 
 interface LoaderData {
   story: IStory;
@@ -149,6 +151,10 @@ export default function Slug() {
             </div>
           </div>
         </div>
+        <div>
+          <hr />
+          <h3>Subscribe to my newsletter</h3>
+        </div>
       </section>
     </>
   );
@@ -168,3 +174,20 @@ export const meta: MetaFunction = ({ location, data }) => {
     })
   };
 };
+
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: "https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"
+    },
+    {
+      rel: "stylesheet",
+      href: prismLine
+    },
+    {
+      rel: "stylesheet",
+      href: prismTheme
+    }
+  ];
+}
