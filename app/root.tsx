@@ -11,8 +11,6 @@ import Layout from "./components/Layout";
 import { metaTags } from "./helpers/metaTags";
 import { ThemeContext } from "./helpers/useTheme";
 import styles from "./styles/app.css";
-import prismLine from "./styles/prism-line-number.css";
-import prismTheme from "./styles/prism-nightowl.css";
 
 export const meta: MetaFunction = ({ location }) => ({
   charset: "utf-8",
@@ -26,14 +24,6 @@ export function links() {
     {
       rel: "stylesheet",
       href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-    },
-    {
-      rel: "stylesheet",
-      href: prismLine
-    },
-    {
-      rel: "stylesheet",
-      href: prismTheme
     },
     {
       rel: "alternate",
