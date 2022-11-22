@@ -14,6 +14,7 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { metaTags } from "~/helpers/metaTags";
 import prismLine from "~/styles/prism-line-number.css";
 import prismTheme from "~/styles/prism-nightowl.css";
+import { Subscribe } from "~/components/Subscribe";
 
 interface LoaderData {
   story: IStory;
@@ -105,7 +106,7 @@ export default function Slug() {
           </div>
         )}
 
-        <div
+        <article
           className="
         mb-6
         story-content
@@ -120,7 +121,7 @@ export default function Slug() {
       "
         >
           <MDXComponent />
-        </div>
+        </article>
         <div>
           <h5 className="header-font mb-4">Best,</h5>
           <div className="flex items-start space-x-4">
@@ -151,6 +152,7 @@ export default function Slug() {
             </div>
           </div>
         </div>
+        <Subscribe />
       </section>
     </>
   );

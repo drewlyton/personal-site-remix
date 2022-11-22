@@ -1,16 +1,17 @@
 import React from "react";
+import ThemeSwitch from "./ThemeSwitch";
 
 const Footer = () => {
   function copyEmail() {
-    navigator.clipboard.writeText("drew@lumastic.com").then(
+    navigator.clipboard.writeText("contact@drewis.cool").then(
       function () {
         console.log("Copied successfully!");
-        alert("Copied drew@lumastic.com to your clipboard!");
+        alert("Copied contact@drewis.cool to your clipboard!");
       },
       function (err) {
         console.error("Async: Could not copy text: ", err);
         alert(
-          "Sorry! I couldn't copy my email to your clipboard. It's drew@lumastic.com"
+          "Sorry! I couldn't copy my email to your clipboard. It's contact@drewis.cool"
         );
       }
     );
@@ -25,8 +26,7 @@ const Footer = () => {
         max-w-screen-lg
         flex
         items-center
-        pb-3
-        pt-2
+        py-3
         px-2
         wave-border
         top
@@ -34,13 +34,15 @@ const Footer = () => {
       "
       >
         <div className="flex-grow flex items-center space-x-4">
-          <div className="header-font leading-none uppercase">Find me on:</div>
+          <div className="header-font leading-none uppercase">
+            Let's Connect:
+          </div>
           <a
             rel="noreferrer"
             href="https://twitter.com/itsjustdrewit"
             target="_blank"
           >
-            <i className="bi bi-twitter"></i>
+            <i className="bi bi-linkedin"></i>
           </a>
           <a
             rel="noreferrer"
@@ -52,12 +54,16 @@ const Footer = () => {
           <a rel="noreferrer" href="https://github.com/aml3ed" target="_blank">
             <i className="bi bi-github"></i>
           </a>
+          <button onClick={copyEmail} className="hover:text-ind">
+            <i className="bi bi-envelope-fill"></i>
+          </button>
         </div>
-        <div className="flex-grow-0">
-          <button onClick={copyEmail}>
+        <div className="flex-grow-0  mr-1.5 my-0.5">
+          <ThemeSwitch />
+          {/* <button onClick={copyEmail}>
             <i className="bi bi-envelope-fill mr-1.5 mb-0.5"></i>
             Contact Me
-          </button>
+          </button> */}
         </div>
       </div>
     </footer>

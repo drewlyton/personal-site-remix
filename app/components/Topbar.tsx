@@ -27,7 +27,7 @@ const Topbar = () => {
           items-end
           justify-end
           flex
-          space-x-6
+          
           header-font
           uppercase
         "
@@ -38,19 +38,17 @@ const Topbar = () => {
               `leading-none wave-border bottom ${isActive && "active"}`
             }
           >
-            Stories
+            <i className="bi bi-book pb-2 mr-1"></i> Stories
           </NavLink>
-          <a
+          {/* <a
             href="https://www.getrevue.co/profile/realizingthought"
             target={"_blank"}
             rel="noreferrer"
             className={`leading-none wave-border bottom`}
           >
             Newsletter
-          </a>
-          <div>
-            <ThemeSwitch />
-          </div>
+          </a> */}
+          <div>{/* <ThemeSwitch /> */}</div>
         </div>
       </div>
     </nav>

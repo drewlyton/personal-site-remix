@@ -111,13 +111,15 @@ p {
     margin-bottom: -5px;
   }
 }
-a[href] {
+a[href],
+button {
   &:not(.not-text) {
     transition: all 0.2s;
   }
   &:hover,
   &.active {
-    &:not(.not-text) {
+    &:not(.not-text),
+    &:not([type="submit"]) {
       @apply text-red-600 dark:text-blue-400;
     }
     cursor: pointer;
@@ -148,7 +150,7 @@ a[href] {
   transition: opacity 500ms;
 }
 
-button {
+button[type="submit"] {
   @extend .gradient-bg;
   @extend .header-font;
   @apply uppercase inline-flex items-center;
