@@ -33,8 +33,8 @@ const Footer = () => {
         solid
       "
       >
-        <div className="flex-grow flex items-center space-x-4">
-          <div className="header-font leading-none uppercase">
+        <div className="flex-grow flex items-center space-x-4 max-md:space-x-6">
+          <div className="header-font leading-none uppercase max-md:hidden">
             Let's Connect:
           </div>
           <a
