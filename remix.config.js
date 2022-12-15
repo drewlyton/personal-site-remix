@@ -29,6 +29,8 @@ module.exports = {
     /^unified.*/,
     /^unist.*/,
     /^remark.*/,
+    /^remark-*/,
+    /^markdown-*/,
     /^rehype.*/,
     /^hastscript.*/,
     /^web-namespaces.*/,

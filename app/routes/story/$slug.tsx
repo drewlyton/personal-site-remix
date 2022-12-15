@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import { client } from "~/data/client";
 import GetStory from "~/data/GetStory";
 import type IStory from "~/data/Story";
@@ -53,7 +54,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
-      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath];
+      options.remarkPlugins = [
+        ...(options.remarkPlugins ?? []),
+        remarkMath,
+        remarkGfm
+      ];
       options.rehypePlugins = [
         ...(options.rehypePlugins ?? []),
         rehypeKatex,
