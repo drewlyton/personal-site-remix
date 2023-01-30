@@ -16,7 +16,6 @@
      word-break: normal;
      word-wrap: normal;
      line-height: 1.5;
-     font-size: 1em;
  
      -moz-tab-size: 4;
      -o-tab-size: 4;
@@ -27,6 +26,12 @@
      -ms-hyphens: none;
      hyphens: none;
  }
+
+ code[class*="language-md"],
+ pre[class*="language-md"] {
+   white-space: break-spaces;
+}
+
  
  pre[class*="language-"]::-moz-selection,
  pre[class*="language-"] ::-moz-selection,
