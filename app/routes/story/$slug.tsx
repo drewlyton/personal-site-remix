@@ -86,19 +86,27 @@ export default function Slug() {
   return (
     <>
       <section className="top-section max-w-prose mx-auto">
+        <div className="mb-2 w-full rounded-3xl overflow-clip">
+          <img
+            src={story.featuredImage.url}
+            alt={story.title + "image"}
+            width="100%"
+          />
+        </div>
         <div className="tilted mb-8">
-          <div className="space-y-1">
+          <div className="space-y-4">
             <Link
               to={routes.stories}
               className="text-gray-500 dark:text-gray-300"
             >
-              <div className="header-font uppercase text-sm">
+              <div className="header-font uppercase">
                 <i className="bi bi-arrow-left"></i> All Stories
               </div>
             </Link>
             <h2 className="uppercase">{story.title}</h2>
           </div>
         </div>
+
         {story.videoUrl && (
           <div v-if="story.videoUrl" className="w-full mb-8">
             <iframe
