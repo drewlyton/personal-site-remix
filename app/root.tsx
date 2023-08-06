@@ -44,6 +44,15 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <script
+          async
+          src="https://analytics.umami.is/script.js"
+          data-website-id={
+            process.env.NODE_ENV === "production"
+              ? "6e43faf5-9db4-4ed9-8146-ae72c6e3691e"
+              : ""
+          }
+        ></script>
         <Meta />
         <Links />
       </head>
