@@ -41,6 +41,7 @@ const Footer = () => {
             rel="noreferrer"
             href="https://twitter.com/itsjustdrewit"
             target="_blank"
+            aria-label="Follow me on LinkedIn"
           >
             <i className="bi bi-linkedin"></i>
           </a>
@@ -48,13 +49,23 @@ const Footer = () => {
             rel="noreferrer"
             href="https://www.youtube.com/c/Curiository"
             target="_blank"
+            aria-label="Follow me on YouTube"
           >
             <i className="bi bi-youtube"></i>
           </a>
-          <a rel="noreferrer" href="https://github.com/aml3ed" target="_blank">
+          <a
+            rel="noreferrer"
+            href="https://github.com/aml3ed"
+            target="_blank"
+            aria-label="Find me on Github"
+          >
             <i className="bi bi-github"></i>
           </a>
-          <button onClick={copyEmail} className="hover:text-ind">
+          <button
+            onClick={copyEmail}
+            className="hover:text-ind"
+            aria-label="Email me"
+          >
             <i className="bi bi-envelope-fill"></i>
           </button>
         </div>

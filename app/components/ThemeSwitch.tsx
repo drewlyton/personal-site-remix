@@ -7,6 +7,7 @@ const ThemeSwitch = () => {
     <label htmlFor="theme" className="flex items-center cursor-pointer">
       <div className="relative">
         <input
+          aria-label="Toggle dark/light mode"
           id="theme"
           type="checkbox"
           className="sr-only"
