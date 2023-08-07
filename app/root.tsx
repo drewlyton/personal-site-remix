@@ -22,10 +22,6 @@ export function links() {
   return [
     { rel: "stylesheet", href: styles },
     {
-      rel: "stylesheet",
-      href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-    },
-    {
       rel: "alternate",
       type: "application/rss+xml",
       title: "Drew Lytle",
