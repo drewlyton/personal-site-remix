@@ -14,6 +14,7 @@ import routes from "~/helpers/routes";
 import { getMDXComponent } from "mdx-bundler/client";
 import { metaTags } from "~/helpers/metaTags";
 import prismLine from "~/styles/prism-line-number.css";
+import katexCss from "~/styles/katex.css";
 import prismTheme from "~/styles/prism-nightowl.css";
 import { Subscribe } from "~/components/Subscribe";
 
@@ -205,15 +206,21 @@ export function links() {
   return [
     {
       rel: "stylesheet",
-      href: "https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"
+      href: katexCss,
+      media: "print",
+      onload: "this.media='all'"
     },
     {
       rel: "stylesheet",
-      href: prismLine
+      href: prismLine,
+      media: "print",
+      onload: "this.media='all'"
     },
     {
       rel: "stylesheet",
-      href: prismTheme
+      href: prismTheme,
+      media: "print",
+      onload: "this.media='all'"
     }
   ];
 }
