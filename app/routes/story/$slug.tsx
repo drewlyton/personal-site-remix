@@ -9,7 +9,7 @@ import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import { client } from "~/data/client";
 import GetStory from "~/data/GetStory";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import routes from "~/helpers/routes";
 import { getMDXComponent } from "mdx-bundler/client";
 import { metaTags } from "~/helpers/metaTags";
@@ -19,7 +19,7 @@ import prismTheme from "~/styles/prism-nightowl.css";
 import { Subscribe } from "~/components/Subscribe";
 
 interface LoaderData {
-  story: IStory;
+  story: Story;
   mdxCode: string;
 }
 
@@ -32,7 +32,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     });
   }
 
-  const { story }: { story: IStory } = await client.request(GetStory, {
+  const { story }: { story: Story } = await client.request(GetStory, {
     slug
   });
 

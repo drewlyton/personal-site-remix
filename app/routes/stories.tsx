@@ -5,17 +5,17 @@ import Story from "~/components/Story";
 import { client } from "~/data/client";
 import GetHighlighted from "~/data/GetHighlighted";
 import GetStories from "~/data/GetStories";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import { filterStories } from "~/helpers/filterStories";
 
 interface LoaderData {
-  stories: IStory[];
-  highlighted: IStory[];
+  stories: Story[];
+  highlighted: Story[];
 }
 
 export const loader: LoaderFunction = async () => {
-  const { stories }: { stories: IStory[] } = await client.request(GetStories);
-  const { stories: highlighted }: { stories: IStory[] } = await client.request(
+  const { stories }: { stories: Story[] } = await client.request(GetStories);
+  const { stories: highlighted }: { stories: Story[] } = await client.request(
     GetHighlighted
   );
   return json(

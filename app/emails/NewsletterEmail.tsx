@@ -14,7 +14,7 @@ import {
   Text
 } from "@react-email/components";
 import { Markdown } from "@react-email/markdown";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import { TailwindEmailConfig } from "./TailwindEmailConfig";
 
 type NewsletterEmailProps = {
@@ -23,7 +23,7 @@ type NewsletterEmailProps = {
   messageBody?: string;
   footerText?: string;
   story?: Pick<
-    IStory,
+    Story,
     "title" | "description" | "featuredImage" | "slug" | "author"
   >;
 };

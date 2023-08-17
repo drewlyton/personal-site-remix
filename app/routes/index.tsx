@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData, useLocation } from "@remix-run/react";
 import { client } from "~/data/client";
 import GetStoriesByTag from "~/data/GetStoriesByTag";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import { metaTags } from "~/helpers/metaTags";
 import LifeAni from "../animations/LifeAni";
 import Me from "../animations/Me";
@@ -12,23 +12,23 @@ import VideoAni from "../animations/VideoAni";
 import StoriesSection from "../components/StoriesSection";
 
 interface LoaderData {
-  productStories: IStory[];
-  videoStories: IStory[];
-  lifeStories: IStory[];
+  productStories: Story[];
+  videoStories: Story[];
+  lifeStories: Story[];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { stories: productStories }: { stories: IStory[] } =
+  const { stories: productStories }: { stories: Story[] } =
     await client.request(GetStoriesByTag, {
       tags: ["software", "design"]
     });
-  const { stories: videoStories }: { stories: IStory[] } = await client.request(
+  const { stories: videoStories }: { stories: Story[] } = await client.request(
     GetStoriesByTag,
     {
       tags: ["video", "entrepreneurship"]
     }
   );
-  const { stories: lifeStories }: { stories: IStory[] } = await client.request(
+  const { stories: lifeStories }: { stories: Story[] } = await client.request(
     GetStoriesByTag,
     {
       tags: ["life"]

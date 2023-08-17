@@ -1,12 +1,12 @@
 import React, { cloneElement, PropsWithChildren, ReactElement } from "react";
-import type IStory from "../data/Story";
+import type Story from "../data/Story";
 import Story from "./Story";
 
 interface Props extends PropsWithChildren {
   label: string;
   id: string;
   animation: ReactElement;
-  stories: IStory[];
+  stories: Story[];
 }
 
 const StoriesSection: React.FC<Props> = ({

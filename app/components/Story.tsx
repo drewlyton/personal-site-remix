@@ -3,7 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import routes from "../helpers/routes";
 import { truncateString } from "../helpers/truncateString";
-import type IStory from "../data/Story";
+import type Story from "../data/Story";
 
 const Story: React.FC<Props> = ({ story }) => {
   return (
@@ -40,7 +40,7 @@ const Story: React.FC<Props> = ({ story }) => {
 };
 
 type Props = {
-  story: IStory;
+  story: Story;
 };
 
 export default Story;
