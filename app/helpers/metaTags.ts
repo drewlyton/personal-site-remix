@@ -6,13 +6,13 @@ interface ImetaTags {
 }
 
 export const metaTags = ({
-  title = "Drew Lytle",
+  title = "Drew Lyton",
   description = "My name's Drew. I'm a designer and software engineer who likes to make stuff on the internet. I make videos and write about things I'm learning.",
   coverImage = "https://media.graphcms.com/output=format:jpg/resize=,width:400,height:400/Rxt3c6FaT4uTu7iYkkkC",
   url = "/"
 }: ImetaTags) => {
-  if (title != "Drew Lytle") {
-    title.concat(" | Drew Lytle");
+  if (title != "Drew Lyton") {
+    title.concat(" | Drew Lyton");
   }
   return {
     title,
