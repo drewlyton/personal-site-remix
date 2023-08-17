@@ -42,7 +42,7 @@ export const Subscribe: React.FC = () => {
       <hr className="opacity-20 border-black dark:border-white my-6 w-3/4 mx-auto" />
 
       <Form
-        action="/newsletter"
+        action="/newsletter/subscribe"
         method="post"
         className={formState === "success" ? "hidden" : ""}
       >
