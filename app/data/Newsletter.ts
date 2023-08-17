@@ -5,8 +5,8 @@ export type Newsletter = {
   publishedAt: string;
   id: string;
   issueNumber: number;
-  messageBody: string[];
-  previewText: string;
+  messageBody: string;
+  subject: string;
   updatedAt: string;
   story: Story;
 };

@@ -42,7 +42,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       status: 404
     });
   }
-  console.log(previewKey, process.env.PREVIEW);
   if (story.preview && previewKey !== process.env.PREVIEW) {
     throw new Response("Not Found", {
       status: 404

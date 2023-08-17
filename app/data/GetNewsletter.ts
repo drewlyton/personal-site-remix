@@ -8,7 +8,7 @@ export default gql`
       id
       issueNumber
       messageBody
-      previewText
+      subject
       publishedAt
       updatedAt
       story {

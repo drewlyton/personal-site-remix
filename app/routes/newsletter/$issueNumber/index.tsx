@@ -3,7 +3,6 @@ import { useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 export function loader(args: LoaderArgs) {
-  console.log(args);
   return json({ issueNumber: args.params.issueNumber });
 }
 
@@ -12,7 +11,6 @@ export default function PreviewNewsletter() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     if (iframeRef.current) {
-      console.log(iframeRef.current.contentWindow?.document.body.scrollHeight);
       iframeRef.current.style.height =
         iframeRef.current.contentWindow?.document.body.scrollHeight! +
         350 +
@@ -23,7 +21,7 @@ export default function PreviewNewsletter() {
     <section className="top-section min-h-screen">
       <iframe
         ref={iframeRef}
-        src={`/newsletter/render?issueNumber=${loaderData.issueNumber}`}
+        src={`/newsletter/${loaderData.issueNumber}/render`}
         title="Newsletter preview"
         width={"100%"}
         className="h-full min-h-screen"
