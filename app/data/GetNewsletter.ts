@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
 export default gql`
-  query Newsletters($issueNumber: Number) {
+  query Newsletters($issueNumber: Int) {
     newsletter(where: { issueNumber: $issueNumber }) {
       createdAt
       publishedAt

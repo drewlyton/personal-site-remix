@@ -16,12 +16,13 @@ import {
 import { Markdown } from "@react-email/markdown";
 import type Story from "~/data/Story";
 import { TailwindEmailConfig } from "./TailwindEmailConfig";
+import { PropsWithChildren, useMemo } from "react";
+import { getMDXComponent } from "mdx-bundler/client";
 
 type NewsletterEmailProps = {
   issueNumber?: number;
   previewText?: string;
-  messageBody?: string;
-  footerText?: string;
+  messageBody?: string[];
   story?: Pick<
     Story,
     "title" | "description" | "featuredImage" | "slug" | "author"
@@ -31,8 +32,10 @@ type NewsletterEmailProps = {
 export function NewsletterEmail({
   issueNumber = 1,
   previewText = "Read Drew's latest blogpost",
-  messageBody = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  footerText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  messageBody = [
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+  ],
   story = {
     title: "Latest post title",
     description: "Latest post description",
@@ -56,6 +59,10 @@ export function NewsletterEmail({
     lineHeight: "1.85rem",
     fontSize: "1rem"
   };
+  const MDXComponentAboveFold = getMDXComponent(messageBody[0]);
+  const MDXComponentBelowFold = getMDXComponent(messageBody[1]);
+  const MDXComponents = { p: MDXText, blockquote: MDXBlockQuote };
+
   return (
     <TailwindEmailConfig>
       <Html>
@@ -68,12 +75,10 @@ export function NewsletterEmail({
             <Container>
               <Section>
                 <Row>
-                  <Text className="text-xl font-serif font-semibold">
+                  <Text className="text-2xl font-serif font-semibold">
                     Hey friends 👋,
                   </Text>
-                  <Markdown markdownContainerStyles={markdownContainerStyles}>
-                    {messageBody}
-                  </Markdown>
+                  <MDXComponentAboveFold components={MDXComponents} />
                 </Row>
               </Section>
               <Button
@@ -86,7 +91,7 @@ export function NewsletterEmail({
                       className="rounded-t-md"
                       width={"100%"}
                     />
-                    <Text className="text-2xl px-5 font-serif font-semibold text-black">
+                    <Text className="text-xl px-5 font-bold text-black">
                       {story.title}
                     </Text>
                     <Text className="px-5 text-base text-black">
@@ -95,16 +100,13 @@ export function NewsletterEmail({
                   </div>
                 </Section>
               </Button>
-              <Markdown markdownContainerStyles={markdownContainerStyles}>
-                {footerText}
-              </Markdown>
-
+              <MDXComponentBelowFold components={MDXComponents} />
               <Text className="text-base mb-2">Until next time,</Text>
-              <Row>
-                <Column className="w-[40px]">
+              <Row className="mt-6 mb-8">
+                <Column className="w-[40px]" valign="top">
                   <Img src={story.author.picture.url} width={"100%"} />
                 </Column>
-                <Column className="pt-[20px]">
+                <Column valign="top">
                   <Text className="text-lg font-semibold ml-4 my-0">
                     {story.author.name}
                   </Text>
@@ -129,7 +131,12 @@ export function NewsletterEmail({
                   </Link>
                 </Column>
                 <Column align="right">
-                  <Button className="text-gray-500 text-sm">Unsubscribe</Button>
+                  <Button
+                    className="text-gray-500 text-sm"
+                    href="{{ unsubscribe_url }}"
+                  >
+                    Unsubscribe
+                  </Button>
                 </Column>
               </Section>
             </Container>
@@ -139,3 +146,15 @@ export function NewsletterEmail({
     </TailwindEmailConfig>
   );
 }
+
+const MDXText: React.FC<PropsWithChildren> = ({ children }) => {
+  return <Text className="text-base leading-7">{children}</Text>;
+};
+
+const MDXBlockQuote: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <blockquote className="m-0 pl-8 border-solid border-0 border-l-4 border-l-[#F66100] italic">
+      {children}
+    </blockquote>
+  );
+};
