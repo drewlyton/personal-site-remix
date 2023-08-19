@@ -34,7 +34,7 @@ export function NewPostNewsletter({
     author: {
       bio: "Test bio",
       name: "Drew Lyton",
-      picture: { url: "https://media.graphassets.com/DaEP4yDeQkuwmEl0hfrf" }
+      picture: { url: "https://www.drewis.cool/headshot.png" }
     }
   }
 }: NewsletterEmailProps) {
