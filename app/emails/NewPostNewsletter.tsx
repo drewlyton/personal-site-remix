@@ -62,10 +62,10 @@ export function NewPostNewsletter({
               className="rounded-t-md"
               width={"100%"}
             />
-            <Text className="text-xl px-5 font-bold text-black">
+            <Text className="text-xl px-5 font-bold text-black dark:text-white">
               {story.title}
             </Text>
-            <Text className="px-5 text-base text-black">
+            <Text className="px-5 text-base text-black dark:text-white">
               {story.description}
             </Text>
           </div>
