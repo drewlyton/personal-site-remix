@@ -1,7 +1,7 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import Story from "~/components/Story";
+import StoryCard from "~/components/Story";
 import { client } from "~/data/client";
 import GetHighlighted from "~/data/GetHighlighted";
 import GetStories from "~/data/GetStories";
@@ -40,7 +40,7 @@ export default function Stories() {
         </div>
         <div className="mx-auto max-w-prose">
           {highlighted.map((story) => (
-            <Story story={story} key={story.id} />
+            <StoryCard story={story} key={story.id} />
           ))}
 
           <div className="px-2 mt-4">
@@ -82,7 +82,7 @@ export default function Stories() {
 
           <div className="flex flex-wrap items-start">
             {filterStories(stories, searchString).map((story) => (
-              <Story story={story} key={story.id} />
+              <StoryCard story={story} key={story.id} />
             ))}
           </div>
         </div>
