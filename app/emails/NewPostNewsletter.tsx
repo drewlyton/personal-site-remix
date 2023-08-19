@@ -43,7 +43,7 @@ export function NewPostNewsletter({
   const MDXComponents = { p: MDXText, blockquote: MDXBlockQuote };
 
   return (
-    <TailwindEmailConfig>
+    <>
       <Section>
         <Row>
           <Text className="text-2xl font-serif font-semibold">
@@ -84,7 +84,7 @@ export function NewPostNewsletter({
           <Text className="text-base ml-4 my-0">{story.author.bio}</Text>
         </Column>
       </Row>
-    </TailwindEmailConfig>
+    </>
   );
 }
 
