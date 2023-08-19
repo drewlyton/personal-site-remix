@@ -7,7 +7,7 @@ export const feed = (origin: string) =>
     description:
       "My name's Drew. I'm a designer and software engineer who likes to make stuff on the internet. I make videos and write about things I'm learning.",
     id: origin,
-    copyright: `All rights reserved ${new Date().getFullYear()}, Drew Lytle`,
+    copyright: `All rights reserved ${new Date().getFullYear()}, Drew Lyton`,
     feedLinks: {
       rss: origin + "/feed.rss.xml",
       atom: origin + "/feed.atom.xml"
@@ -16,7 +16,7 @@ export const feed = (origin: string) =>
     image: origin + "/favicon-32x32.png",
     favicon: origin + "/favicon.ico",
     author: {
-      name: "Drew Lytle",
+      name: "Drew Lyton",
       email: "contact@drewis.cool"
     }
   });

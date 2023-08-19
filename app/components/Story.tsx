@@ -3,9 +3,9 @@ import classNames from "classnames";
 import React from "react";
 import routes from "../helpers/routes";
 import { truncateString } from "../helpers/truncateString";
-import type IStory from "../data/Story";
+import type Story from "../data/Story";
 
-const Story: React.FC<Props> = ({ story }) => {
+const StoryCard: React.FC<Props> = ({ story }) => {
   return (
     <div className="post-item relative px-2 py-4 flex-grow">
       <Link to={routes.story(story.slug)}>
@@ -40,7 +40,7 @@ const Story: React.FC<Props> = ({ story }) => {
 };
 
 type Props = {
-  story: IStory;
+  story: Story;
 };
 
-export default Story;
+export default StoryCard;

@@ -1,21 +1,21 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import Story from "~/components/Story";
+import StoryCard from "~/components/Story";
 import { client } from "~/data/client";
 import GetHighlighted from "~/data/GetHighlighted";
 import GetStories from "~/data/GetStories";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import { filterStories } from "~/helpers/filterStories";
 
 interface LoaderData {
-  stories: IStory[];
-  highlighted: IStory[];
+  stories: Story[];
+  highlighted: Story[];
 }
 
 export const loader: LoaderFunction = async () => {
-  const { stories }: { stories: IStory[] } = await client.request(GetStories);
-  const { stories: highlighted }: { stories: IStory[] } = await client.request(
+  const { stories }: { stories: Story[] } = await client.request(GetStories);
+  const { stories: highlighted }: { stories: Story[] } = await client.request(
     GetHighlighted
   );
   return json(
@@ -40,7 +40,7 @@ export default function Stories() {
         </div>
         <div className="mx-auto max-w-prose">
           {highlighted.map((story) => (
-            <Story story={story} key={story.id} />
+            <StoryCard story={story} key={story.id} />
           ))}
 
           <div className="px-2 mt-4">
@@ -82,7 +82,7 @@ export default function Stories() {
 
           <div className="flex flex-wrap items-start">
             {filterStories(stories, searchString).map((story) => (
-              <Story story={story} key={story.id} />
+              <StoryCard story={story} key={story.id} />
             ))}
           </div>
         </div>

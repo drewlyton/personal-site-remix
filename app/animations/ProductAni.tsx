@@ -21,7 +21,7 @@ const ProductAni: React.FC<AniComp> = ({ link }) => {
 function animate() {
   const timeline = gsap.timeline({ repeat: -1, yoyo: true });
   const mySplitText = new SplitText("#software-header", {
-    type: "words",
+    type: "words"
   });
   mySplitText.words[0]?.classList.add("left-bracket");
   mySplitText.words[3]?.classList.add("right-bracket");

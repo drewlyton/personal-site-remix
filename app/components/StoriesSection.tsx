@@ -1,12 +1,12 @@
 import React, { cloneElement, PropsWithChildren, ReactElement } from "react";
-import type IStory from "../data/Story";
-import Story from "./Story";
+import type Story from "../data/Story";
+import StoryCard from "./Story";
 
 interface Props extends PropsWithChildren {
   label: string;
   id: string;
   animation: ReactElement;
-  stories: IStory[];
+  stories: Story[];
 }
 
 const StoriesSection: React.FC<Props> = ({
@@ -33,7 +33,7 @@ const StoriesSection: React.FC<Props> = ({
       </div>
       <div className="flex flex-wrap items-start">
         {stories.map((story) => (
-          <Story story={story} key={story.id} />
+          <StoryCard story={story} key={story.id} />
         ))}
       </div>
     </section>

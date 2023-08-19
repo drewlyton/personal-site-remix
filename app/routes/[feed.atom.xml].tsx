@@ -1,12 +1,12 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { client } from "~/data/client";
 import GetStories from "~/data/GetStories";
-import type IStory from "~/data/Story";
+import type Story from "~/data/Story";
 import { feed } from "~/helpers/feed";
 import { getHost } from "~/helpers/getHost.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { stories }: { stories: IStory[] } = await client.request(GetStories);
+  const { stories }: { stories: Story[] } = await client.request(GetStories);
 
   const origin = new URL(request.url).origin;
   const storyURL = (slug: string) =>

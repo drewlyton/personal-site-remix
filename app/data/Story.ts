@@ -1,6 +1,6 @@
 import type { RichText } from "./RichText";
 
-export default interface IStory {
+export default interface Story {
   id: string;
   title: string;
   description: string;
