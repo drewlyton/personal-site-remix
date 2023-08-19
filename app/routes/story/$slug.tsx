@@ -1,29 +1,24 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { bundleMDX } from "~/helpers/mdx.server";
+import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
 import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
-import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
-import { client } from "~/data/client";
+import remarkMath from "remark-math";
+import { Subscribe } from "~/components/Subscribe";
 import GetStory from "~/data/GetStory";
 import type Story from "~/data/Story";
-import routes from "~/helpers/routes";
-import { getMDXComponent } from "mdx-bundler/client";
+import { client } from "~/data/client";
+import { bundleMDX } from "~/helpers/mdx.server";
 import { metaTags } from "~/helpers/metaTags";
-import prismLine from "~/styles/prism-line-number.css";
+import routes from "~/helpers/routes";
 import katexCss from "~/styles/katex.css";
+import prismLine from "~/styles/prism-line-number.css";
 import prismTheme from "~/styles/prism-nightowl.css";
-import { Subscribe } from "~/components/Subscribe";
 
-interface LoaderData {
-  story: Story;
-  mdxCode: string;
-}
-
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader = async ({ params, request }: LoaderArgs) => {
   const slug = params.slug as string;
   const previewKey = new URL(request.url).searchParams.get("preview");
   if (!slug) {
@@ -70,7 +65,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   });
 
   return json(
-    { story, mdxCode: code },
+    { story, mdxCode: code, refLink: request.url },
     {
       headers: {
         "Cache-Control": "s-maxage:60, stale-while-revalidate"
@@ -80,7 +75,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 export default function Slug() {
-  const { story, mdxCode } = useLoaderData<LoaderData>();
+  const { story, mdxCode, refLink } = useLoaderData<typeof loader>();
   const MDXComponent = useMemo(() => getMDXComponent(mdxCode), [mdxCode]);
 
   return (
@@ -180,14 +175,14 @@ export default function Slug() {
             </div>
           </div>
         </div>
-        <Subscribe />
+        <Subscribe refLink={refLink} />
       </section>
     </>
   );
 }
 
 export const meta: MetaFunction = ({ location, data }) => {
-  const { story } = data as LoaderData;
+  const { story } = data as { story: Story };
 
   return {
     charset: "utf-8",

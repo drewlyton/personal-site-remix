@@ -3,8 +3,8 @@ import { type LoaderArgs } from "@remix-run/node";
 import GetNewsletter from "~/data/GetNewsletter";
 import type { Newsletter } from "~/data/Newsletter";
 import { client } from "~/data/client";
-import { ConvertKitTemplate } from "~/emails/ConvertKitTemplate";
-import { MessageContent } from "~/emails/MessageContent";
+import { EmailLayout } from "~/emails/EmailLayout";
+import { NewPostNewsletter } from "~/emails/NewPostNewsletter";
 import { getMessageBodyMarkdown } from "~/helpers/getMessageBodyMarkdown";
 
 export async function loader({ params, request }: LoaderArgs) {
@@ -24,10 +24,12 @@ export async function loader({ params, request }: LoaderArgs) {
   );
 
   const html = render(
-    <MessageContent
-      {...newsletter}
-      messageBody={[messageAboveLink, messageBelowLink]}
-    />,
+    <EmailLayout recipient="">
+      <NewPostNewsletter
+        {...newsletter}
+        messageBody={[messageAboveLink, messageBelowLink]}
+      />
+    </EmailLayout>,
     { pretty: true }
   );
   return new Response(html, { headers: { "Content-Type": "text/html" } });

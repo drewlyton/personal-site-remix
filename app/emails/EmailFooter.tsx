@@ -1,53 +1,47 @@
 import {
-  Text,
   Button,
   Column,
   Hr,
   Img,
   Link,
-  Section
+  Section,
+  Text
 } from "@react-email/components";
-import { TailwindEmailConfig } from "./TailwindEmailConfig";
 
-export function EmailFooter() {
+export function EmailFooter({ recipient }: { recipient: string }) {
   const baseUrl =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
       : "https://www.drewis.cool";
 
   return (
-    <TailwindEmailConfig>
+    <>
       <Hr className="my-7" />
       <Section className="mb-5">
         <Column align="left">
           <Link href="https://www.drewis.cool/?ref=newsletter" target="_blank">
             <Img
-              src={`${baseUrl}/static/logo-text.png`}
+              src={"https://www.drewis.cool/static/logo-text.png"}
               width="96"
-              alt="Drew's logo"
+              alt="Drew's logo - a handrawn symbol of the letter D."
             />
           </Link>
         </Column>
         <Column align="right">
           <Button
-            className="text-gray-500 text-xs mr-2"
-            href="{{ unsubscribe_url }}"
+            className="text-gray-500 text-xs "
+            href={`${baseUrl}/newsletter/unsubscribe?recipient=${recipient}`}
           >
             Unsubscribe
-          </Button>
-          <Button
-            className="text-gray-500 text-xs"
-            href="{{ subscriber_preferences_url }}"
-          >
-            Update Preferences
           </Button>
         </Column>
       </Section>
       <Section>
-        <Text className="text-sm text-center text-gray-500">
-          {"{{ address }}"}
+        <Text className="text-[8px] text-center text-bgApache">
+          <span className="block">998 Salisbury Squre</span>
+          <span className="block">Charlottesville, VA 22901</span>
         </Text>
       </Section>
-    </TailwindEmailConfig>
+    </>
   );
 }

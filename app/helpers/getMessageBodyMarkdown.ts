@@ -1,4 +1,4 @@
-import { bundleMDX } from "mdx-bundler";
+import { bundleMDX } from "./mdx.server";
 import remarkGfm from "remark-gfm";
 
 export async function getMessageBodyMarkdown(messageBody: string) {

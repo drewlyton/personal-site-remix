@@ -117,7 +117,7 @@ button {
   &:not(.not-text) {
     transition: all 0.2s;
   }
-  &:hover,
+  &:hover:not([type="submit"]),
   &.active {
     &:not(.not-text),
     &:not([type="submit"]) {

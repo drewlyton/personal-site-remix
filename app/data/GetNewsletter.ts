@@ -8,6 +8,7 @@ export default gql`
       id
       issueNumber
       messageBody
+      preview
       subject
       publishedAt
       updatedAt

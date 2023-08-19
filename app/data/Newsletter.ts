@@ -6,6 +6,7 @@ export type Newsletter = {
   id: string;
   issueNumber: number;
   messageBody: string;
+  preview: boolean;
   subject: string;
   updatedAt: string;
   story: Story;
