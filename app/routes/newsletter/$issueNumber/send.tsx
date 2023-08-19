@@ -10,10 +10,11 @@ import { getMessageBodyMarkdown } from "~/helpers/getMessageBodyMarkdown";
 
 export const action = async ({ params, request }: ActionArgs) => {
   const issueNumber = params.issueNumber;
-  const sendTest = Boolean(
+  const sendAsTest = Boolean(
     new URL(request.url).searchParams.get("test") ||
       process.env.NODE_ENV === "development"
   );
+  console.log({ sendAsTest });
 
   if (!issueNumber) throw new Response("Not found", { status: 404 });
 
@@ -65,12 +66,15 @@ export const action = async ({ params, request }: ActionArgs) => {
       // Send 5 minutes from now in case need to cancel it
       send_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
       send_to: {
-        segment_ids: !sendTest ? [process.env.SENGRID_CONFIRMED_SEGMENT] : [],
-        list_ids: sendTest ? [process.env.SENDGRID_TEST_LIST] : []
+        segment_ids: !sendAsTest
+          ? [process.env.SENDGRID_CONFIRMED_SEGMENT]
+          : [],
+        list_ids: sendAsTest ? [process.env.SENDGRID_TEST_LIST] : []
       },
       email_config: {
         design_id: design.id,
-        sender_id: 5210253
+        sender_id: 5210253,
+        custom_unsubscribe_url: "https://drewis.cool/newsletter/unsubscribe"
       }
     }
   });

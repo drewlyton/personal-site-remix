@@ -1,5 +1,5 @@
-import { render } from "@react-email/render";
-import { type LoaderArgs } from "@remix-run/node";
+import { json, type LoaderArgs } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import GetNewsletter from "~/data/GetNewsletter";
 import type { Newsletter } from "~/data/Newsletter";
 import { client } from "~/data/client";
@@ -23,14 +23,46 @@ export async function loader({ params, request }: LoaderArgs) {
     newsletter.messageBody
   );
 
-  const html = render(
-    <EmailLayout recipient="">
-      <NewPostNewsletter
-        {...newsletter}
-        messageBody={[messageAboveLink, messageBelowLink]}
-      />
-    </EmailLayout>,
-    { pretty: true }
+  return json({ messageAboveLink, messageBelowLink, newsletter });
+}
+
+export default function PreviewNewsletter() {
+  const { newsletter, messageAboveLink, messageBelowLink } =
+    useLoaderData<typeof loader>();
+  const { Form, submission, data } = useFetcher();
+
+  const formState = submission
+    ? "submitting"
+    : data?.subscribed
+    ? "success"
+    : data?.error
+    ? "error"
+    : "idle";
+  return (
+    <section className="top-section container">
+      <div className="flex justify-end">
+        <Form
+          action={`/newsletter/${newsletter.issueNumber}/send`}
+          method="post"
+          className={formState === "success" ? "hidden" : ""}
+        >
+          <button type="submit">
+            {formState === "submitting"
+              ? "Sending..."
+              : formState === "success"
+              ? "Sent"
+              : "Send"}
+          </button>
+        </Form>
+      </div>
+      <div>
+        <EmailLayout recipient="">
+          <NewPostNewsletter
+            {...newsletter}
+            messageBody={[messageAboveLink, messageBelowLink]}
+          />
+        </EmailLayout>
+      </div>
+    </section>
   );
-  return new Response(html, { headers: { "Content-Type": "text/html" } });
 }

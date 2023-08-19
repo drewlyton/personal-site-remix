@@ -38,7 +38,7 @@ export function EmailFooter({ recipient }: { recipient: string }) {
       </Section>
       <Section>
         <Text className="text-[8px] text-center text-bgApache">
-          <span className="block">998 Salisbury Squre</span>
+          <span className="block">998 Salisbury Square</span>
           <span className="block">Charlottesville, VA 22901</span>
         </Text>
       </Section>
