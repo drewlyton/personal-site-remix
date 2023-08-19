@@ -9,7 +9,7 @@ export const EmailLayout: React.FC<
   return (
     <TailwindEmailConfig>
       <Html>
-        <Body className="font-sans bg-bgApache">
+        <Body className="font-sans bg-bgApache dark:bg-bgMidnight">
           <Section>
             <Container>
               {children}
