@@ -18,6 +18,7 @@ const StoryCard: React.FC<Props> = ({ story }) => {
             className="w-full"
             src={story.featuredImage.url}
             alt={`${story.title}`}
+            loading="lazy"
           />
         </div>
         <h4 className="leading-none header-font uppercase">{story.title}</h4>

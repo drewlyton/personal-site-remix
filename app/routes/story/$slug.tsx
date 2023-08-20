@@ -86,6 +86,7 @@ export default function Slug() {
             src={story.featuredImage.url}
             alt={story.title + "image"}
             width="100%"
+            loading="lazy"
           />
         </div>
         <div className="tilted mb-8">
@@ -153,6 +154,7 @@ export default function Slug() {
                 src={story.author.picture.url}
                 alt={story.author.name}
                 width="68px"
+                loading="lazy"
               />
             </div>
             <div className="flex flex-col mb-6">
