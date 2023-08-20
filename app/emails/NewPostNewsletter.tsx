@@ -9,7 +9,6 @@ import {
 import { getMDXComponent } from "mdx-bundler/client";
 import { PropsWithChildren } from "react";
 import type Story from "~/data/Story";
-import { TailwindEmailConfig } from "./TailwindEmailConfig";
 
 type NewsletterEmailProps = {
   messageBody?: string[];
@@ -54,6 +53,7 @@ export function NewPostNewsletter({
       </Section>
       <Button
         href={`https://www.drewis.cool/story/${story.slug}?ref=newsletter`}
+        className="text-black"
       >
         <Section>
           <div className="border border-solid rounded-md border-gray-300 my-6">
@@ -62,12 +62,8 @@ export function NewPostNewsletter({
               className="rounded-t-md"
               width={"100%"}
             />
-            <Text className="text-xl px-5 font-bold text-black ">
-              {story.title}
-            </Text>
-            <Text className="px-5 text-base text-black ">
-              {story.description}
-            </Text>
+            <Text className="text-xl px-5 font-bold">{story.title}</Text>
+            <Text className="px-5 text-base">{story.description}</Text>
           </div>
         </Section>
       </Button>
@@ -94,7 +90,7 @@ const MDXText: React.FC<PropsWithChildren> = ({ children }) => {
 
 const MDXBlockQuote: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <blockquote className="m-0 pl-8 border-solid border-0 border-l-4 border-l-[#F66100] italic">
+    <blockquote className="m-0 pl-8 border-solid border-0 border-l-4 !border-l-black italic">
       {children}
     </blockquote>
   );

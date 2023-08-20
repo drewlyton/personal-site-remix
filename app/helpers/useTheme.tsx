@@ -8,7 +8,7 @@ import React, {
 } from "react";
 
 type themeContextValue = {
-  theme: themeValue;
+  theme: ThemeValue;
   toggleTheme: () => any;
 };
 
@@ -17,22 +17,24 @@ const Theme = createContext<themeContextValue>({
   toggleTheme: () => {}
 });
 
-type themeValue = "apache" | "midnight";
+type ThemeValue = "apache" | "midnight";
 
-function switchThemeValue(oldValue: themeValue): themeValue {
+function switchThemeValue(oldValue: ThemeValue): ThemeValue {
   return oldValue === "apache" ? "midnight" : "apache";
 }
 
 export const ThemeContext: React.FC<PropsWithChildren> = ({ children }) => {
-  const [theme, setTheme] = useState<themeValue>("apache");
+  const [theme, setTheme] = useState<ThemeValue>("apache");
 
   useEffect(() => {
+    // Restore theme from localstorage if we've got one
     setTheme(
-      (oldValue) => (localStorage.getItem("theme") as themeValue) || oldValue
+      (oldValue) => (localStorage.getItem("theme") as ThemeValue) || oldValue
     );
   }, []);
 
   useEffect(() => {
+    // When theme value changes, update the document body
     theme === "apache"
       ? document.documentElement.classList.remove("dark")
       : document.documentElement.classList.add("dark");
