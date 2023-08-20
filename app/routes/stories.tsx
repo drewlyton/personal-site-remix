@@ -1,7 +1,7 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import StoryCard from "~/components/Story";
+import StoryCard from "~/components/StoryCard";
 import { client } from "~/data/client";
 import GetHighlighted from "~/data/GetHighlighted";
 import GetStories from "~/data/GetStories";

@@ -1,6 +1,6 @@
 import React, { cloneElement, PropsWithChildren, ReactElement } from "react";
 import type Story from "../data/Story";
-import StoryCard from "./Story";
+import StoryCard from "./StoryCard";
 
 interface Props extends PropsWithChildren {
   label: string;
