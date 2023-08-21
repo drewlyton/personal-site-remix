@@ -9,5 +9,8 @@ export type Newsletter = {
   preview: boolean;
   subject: string;
   updatedAt: string;
+  sendGridId: string;
+  sendGridDesignId: string;
+  sendAt: string;
   story: Story;
 };
