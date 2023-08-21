@@ -28,7 +28,7 @@ export async function action(args: ActionArgs) {
         status: 200
       }
     );
-  // Send as test email if we're in preview mode or there is no sendAt date specified
+  // Send as test email if there is no sendAt date specified
   const sendAsTest = !newsletter.sendAt;
 
   if (!newsletter.sendGridDesignId) {
