@@ -147,9 +147,9 @@ export default function Index() {
           stories={lifeStories}
         >
           <p>
-            Home to me is being in the Blue Ridge Mountains with my girlfriend
-            and my dog. Outside of work, I love board sports, cooking, and
-            playing music with friends.
+            Home to me is being in the Blue Ridge Mountains with my wife and my
+            dog. Outside of work, I love board sports, cooking, and playing
+            music with friends.
           </p>
           <p>Here are some of my latest life adventures:</p>
         </StoriesSection>
