@@ -68,7 +68,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     { story, mdxCode: code, refLink: request.url },
     {
       headers: {
-        "Cache-Control": "s-maxage:60, stale-while-revalidate"
+        "Cache-Control": "public, s-maxage:60, stale-while-revalidate"
       }
     }
   );
