@@ -37,16 +37,7 @@ export const Subscribe: React.FC<{
           <h2 className="mb-2 text-3xl">LET'S KEEP THE CONVERSATION GOING</h2>
           <p>
             If this article has been valuable and you'd like to be notified the
-            next time I post, you can subscribe to my newsletter,{" "}
-            <a
-              target={"_blank"}
-              rel="noreferrer"
-              className="italic font-bold wave-border bottom dotted"
-              href="https://www.getrevue.co/profile/realizingthought"
-            >
-              Realizing Thought
-            </a>
-            .
+            next time I post, subscribe to my newsletter!
           </p>
           <p>
             Each week, I share my latest post along with three other works from
