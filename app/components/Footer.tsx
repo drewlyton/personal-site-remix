@@ -39,7 +39,7 @@ const Footer = () => {
           </div>
           <a
             rel="noreferrer"
-            href="https://www.linkedin.com/in/drew-lytle-3301a370/"
+            href="https://www.linkedin.com/in/drew-lyton-3301a370/"
             target="_blank"
             aria-label="Follow me on LinkedIn"
           >
