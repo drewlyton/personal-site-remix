@@ -7,5 +7,7 @@ declare namespace NodeJS {
     SENDGRID_TEST_LIST: string;
     CONVERTKIT_API_SECRET: string;
     CONVERTKIT_STORY_FORM_ID: string;
+    SANITY_TOKEN: string;
+    SANITY_PROJECT_ID: string;
   }
 }
