@@ -1,13 +1,14 @@
 import { render } from "@react-email/render";
 import { LoaderArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { bundleMDX } from "mdx-bundler";
 import { useEffect } from "react";
+import remarkGfm from "remark-gfm";
 import GetNewsletter from "~/data/GetNewsletter";
 import { Newsletter } from "~/data/Newsletter";
 import { client } from "~/data/client";
 import { EmailLayout } from "~/emails/EmailLayout";
 import { NewPostNewsletter } from "~/emails/NewPostNewsletter";
-import { getMessageBodyMarkdown } from "~/helpers/getMessageBodyMarkdown";
 import { useTheme } from "~/helpers/useTheme";
 
 export async function loader({ params }: LoaderArgs) {
@@ -24,16 +25,23 @@ export async function loader({ params }: LoaderArgs) {
   );
   if (newsletter.preview) throw new Response("Not found", { status: 404 });
 
-  const [messageAboveLink, messageBelowLink] = await getMessageBodyMarkdown(
-    newsletter.messageBody
-  );
+  const { code: messageBody } = await bundleMDX({
+    source: newsletter.body,
+    mdxOptions(options, frontmatter) {
+      // this is the recommended way to add custom remark/rehype plugins:
+      // The syntax might look weird, but it protects you in case we add/remove
+      // plugins in the future.
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
 
-  return json({ messageAboveLink, messageBelowLink, newsletter });
+      return options;
+    }
+  });
+
+  return json({ messageBody, newsletter });
 }
 
 export default function ViewNewsletter() {
-  const { newsletter, messageAboveLink, messageBelowLink } =
-    useLoaderData<typeof loader>();
+  const { newsletter, messageBody } = useLoaderData<typeof loader>();
 
   const { theme, toggleTheme } = useTheme();
 
@@ -47,10 +55,7 @@ export default function ViewNewsletter() {
       dangerouslySetInnerHTML={{
         __html: render(
           <EmailLayout recipient="">
-            <NewPostNewsletter
-              {...newsletter}
-              messageBody={[messageAboveLink, messageBelowLink]}
-            />
+            <NewPostNewsletter {...newsletter} body={messageBody} />
           </EmailLayout>
         )
       }}
