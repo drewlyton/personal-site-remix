@@ -1,27 +1,23 @@
 import { render } from "@react-email/render";
 import { ActionArgs, json } from "@remix-run/node";
-import { Newsletter } from "~/data/Newsletter";
-import UpdateSendGridId from "~/data/UpdateSendGridId";
-import { client } from "~/data/client";
+import { bundleMDX } from "mdx-bundler";
+import remarkGfm from "remark-gfm";
+import type { Newsletter } from "~/data/Newsletter";
+import { sanityClient } from "~/data/sanity";
 import { sendgridClient } from "~/data/sendgrid";
 import { EmailLayout } from "~/emails/EmailLayout";
 import { NewPostNewsletter } from "~/emails/NewPostNewsletter";
-import { getMessageBodyMarkdown } from "~/helpers/getMessageBodyMarkdown";
-
-type GraphCMSWebhookBody = {
-  data?: Newsletter;
-};
 
 export async function action(args: ActionArgs) {
   // Get Newsletter body
-  const { data: newsletter } =
-    (await args.request.json()) as GraphCMSWebhookBody;
+  const newsletter = (await args.request.json()) as Newsletter;
+  console.log({ newsletter });
 
   //   Throw if doesn't exist
-  if (!newsletter) return new Response("No request body", { status: 401 });
-  const designHTML = generateHTMLEmail(newsletter);
+  if (!newsletter) return new Response("No request body", { status: 200 });
+  const designHTML = await generateHTMLEmail(newsletter);
   // Throw if newsletter is in preview mode
-  if (newsletter.preview)
+  if (!newsletter.shouldSend)
     return new Response(
       "Can't send a nesletter that's still in preview mode.",
       {
@@ -37,7 +33,7 @@ export async function action(args: ActionArgs) {
       url: "/v3/designs",
       method: "POST",
       body: {
-        name: `Issue #${newsletter.issueNumber}`,
+        name: `Issue #${newsletter._id}`,
         html_content: designHTML,
         editor: "code",
         subject: newsletter.subject
@@ -46,11 +42,20 @@ export async function action(args: ActionArgs) {
 
     if (designResponse.statusCode >= 300)
       return new Response("Couldn't create design in sendgrid.", {
-        status: 501
+        status: 200
       });
 
     // Update the Newsletter with the design ID
-    client.request(UpdateSendGridId, { sendGridDesignId: design.id });
+    await sanityClient.mutate([
+      {
+        patch: {
+          id: newsletter._id,
+          set: {
+            sendGridDesignId: design.id
+          }
+        }
+      }
+    ]);
     newsletter.sendGridDesignId = design.id;
   }
 
@@ -60,7 +65,7 @@ export async function action(args: ActionArgs) {
       url: "/v3/marketing/singlesends",
       method: "POST",
       body: {
-        name: `Issue #${newsletter.issueNumber}`,
+        name: `Issue #${newsletter._id}`,
         // Send 5 minutes from now in case need to cancel it
         send_at: newsletter.sendAt,
         send_to: {
@@ -79,15 +84,24 @@ export async function action(args: ActionArgs) {
 
     if (sendResponse.statusCode >= 300)
       return new Response("Couldn't create single send in sendgrid.", {
-        status: 501
+        status: 200
       });
-    client.request(UpdateSendGridId, { sendGridId: singleSend.id });
+    await sanityClient.mutate([
+      {
+        patch: {
+          id: newsletter._id,
+          set: {
+            sendGridId: singleSend.id
+          }
+        }
+      }
+    ]);
   } else {
     const [sendResponse, singleSend] = await sendgridClient.request({
       url: `/v3/marketing/singlesends/${newsletter.sendGridId}`,
       method: "PATCH",
       body: {
-        name: `Issue #${newsletter.issueNumber}`,
+        name: `Issue #${newsletter._id}`,
         // Send 5 minutes from now in case need to cancel it
         send_at: newsletter.sendAt,
         send_to: {
@@ -106,7 +120,7 @@ export async function action(args: ActionArgs) {
 
     if (sendResponse.statusCode >= 300)
       return new Response("Couldn't update single send in sendgrid.", {
-        status: 501
+        status: 200
       });
   }
 
@@ -114,18 +128,19 @@ export async function action(args: ActionArgs) {
 }
 
 export async function generateHTMLEmail(newsletter: Newsletter) {
-  const [messageAboveLink, messageBelowLink] = await getMessageBodyMarkdown(
-    newsletter.messageBody
-  );
+  const { code: messageBody } = await bundleMDX({
+    source: newsletter.body,
+    mdxOptions(options, frontmatter) {
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm];
+      return options;
+    }
+  });
 
   // Render HTML of latest newsletter
   // use {{email}} for the recipient field
   const html = render(
     <EmailLayout recipient="{{email}}">
-      <NewPostNewsletter
-        {...newsletter}
-        messageBody={[messageAboveLink, messageBelowLink]}
-      />
+      <NewPostNewsletter {...newsletter} body={messageBody} />
     </EmailLayout>
   );
 

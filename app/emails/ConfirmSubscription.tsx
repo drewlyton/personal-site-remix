@@ -24,7 +24,10 @@ export function ConfirmSubscription({ recipient }: { recipient: string }) {
       <Text className="text-sm font-semibold mt-6 ">Best,</Text>
       <Row className="mb-8">
         <Column className="w-[40px]" valign="top">
-          <Img src={"https://www.drewis.cool/headshot.png"} width={"100%"} />
+          <Img
+            src={"https://www.drewis.cool/static/headshot.png"}
+            width={"100%"}
+          />
         </Column>
         <Column>
           <Text className="text-base ml-4 my-0">Drew Lyton</Text>
