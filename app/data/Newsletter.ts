@@ -1,16 +1,17 @@
-import type Story from "./Story";
-
 export type Newsletter = {
-  createdAt: string;
-  publishedAt: string;
-  id: string;
-  issueNumber: number;
-  messageBody: string;
-  preview: boolean;
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
   subject: string;
-  updatedAt: string;
+  preview: string;
+  body: string;
+  sendAt: string;
+  shouldSend: boolean;
   sendGridId: string;
   sendGridDesignId: string;
-  sendAt: string;
-  story: Story;
+  author: {
+    bio: string;
+    name: string;
+    image: string;
+  };
 };
