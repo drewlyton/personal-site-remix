@@ -62,6 +62,7 @@ export const Subscribe: React.FC<{
             className="px-4 py-3 rounded-md flex-1 mr-2"
           />
           <input hidden aria-hidden readOnly value={refLink} />
+          <Honeypot />
           <button type="submit">
             {formState === "submitting" ? "Subscribing..." : "Subscribe"}
           </button>
@@ -76,3 +77,22 @@ export const Subscribe: React.FC<{
     </div>
   );
 };
+
+// Form field used to catch spammers
+export const Honeypot = () => (
+  <label
+    htmlFor="last_name"
+    aria-hidden="true"
+    className="hidden"
+    aria-label="Hey friend, if you're human, don't fill this out. It's only to catch spammers."
+  >
+    Last Name
+    <input
+      type="text"
+      name="last_name"
+      id="last_name"
+      className="hidden"
+      autoComplete="off"
+    />
+  </label>
+);

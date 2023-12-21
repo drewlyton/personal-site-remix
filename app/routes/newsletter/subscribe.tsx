@@ -6,6 +6,16 @@ import { EmailLayout } from "~/emails/EmailLayout";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+  // If honeypot field is filled out, return early
+  const honeypot = formData.get("last_name");
+  if (honeypot)
+    return new Response(
+      JSON.stringify({
+        message:
+          "🤔 Hmmm...seems like you might be a robot. If you're not, please refresh the page and try again."
+      }),
+      { status: 200 }
+    );
   const email = formData.get("email")?.toString();
   const ref = formData.get("ref")?.toString() || "";
   if (!email)
