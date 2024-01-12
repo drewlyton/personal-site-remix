@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import StoryCard from "~/components/StoryCard";
-import { getAllPosts, getPostsByTag, sanity } from "~/data/sanityClient";
+import { getAllPosts, getPostsByTag, sanity } from "~/data/sanityClient.server";
 import { Post } from "~/data/types";
 import { filterStories } from "~/helpers/filterStories";
 

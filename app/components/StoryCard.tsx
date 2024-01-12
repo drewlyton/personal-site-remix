@@ -1,11 +1,10 @@
 import { Link } from "@remix-run/react";
 import classNames from "classnames";
 import React from "react";
+import { imageBuilder } from "~/helpers/imageBuilder";
+import { Post } from "~/data/types";
 import routes from "../helpers/routes";
 import { truncateString } from "../helpers/truncateString";
-import type Story from "../data/Story";
-import { Post } from "~/data/types";
-import { imageBuilder } from "~/data/sanityClient";
 
 const StoryCard: React.FC<Props> = ({ story }) => {
   return (

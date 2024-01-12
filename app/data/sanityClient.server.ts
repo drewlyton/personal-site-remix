@@ -1,5 +1,4 @@
 import { createClient } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
 
 export const sanity = createClient({
   projectId: "xpnntlnd",
@@ -9,15 +8,17 @@ export const sanity = createClient({
   token: process.env.SANITY_TOKEN // Only if you want to update content with the client
 });
 
-export const imageBuilder = imageUrlBuilder(sanity);
-
 export function getPostsByTag(tags: string[]) {
   const tagsFilters = tags.map((t) => `"${t}" in tags[]->title`).join(" || ");
   return `*[_type == "post" ${
     tagsFilters.length ? `&& ${tagsFilters}` : ""
-  }]{..., tags[]->{title}}`;
+  }]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current}`;
 }
 
 export function getAllPosts() {
-  return `*[_type == "post"] `;
+  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current}`;
+}
+
+export function getPostBySlug(slug: string) {
+  return `*[_type == "post" && slug.current match "${slug}" ][0]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, body, author->{...}, publishedAt}`;
 }

@@ -3,10 +3,10 @@ import { ActionArgs, json } from "@remix-run/node";
 import { bundleMDX } from "~/helpers/mdx.server";
 import remarkGfm from "remark-gfm";
 import type { Newsletter } from "~/data/Newsletter";
-import { sanityClient } from "~/data/sanity";
 import { sendgridClient } from "~/data/sendgrid";
 import { EmailLayout } from "~/emails/EmailLayout";
 import { NewPostNewsletter } from "~/emails/NewPostNewsletter";
+import { sanity } from "~/data/sanityClient.server";
 
 export async function action(args: ActionArgs) {
   // Get Newsletter body
@@ -46,7 +46,7 @@ export async function action(args: ActionArgs) {
       });
 
     // Update the Newsletter with the design ID
-    await sanityClient.mutate([
+    await sanity.mutate([
       {
         patch: {
           id: newsletter._id,
@@ -86,7 +86,7 @@ export async function action(args: ActionArgs) {
       return new Response("Couldn't create single send in sendgrid.", {
         status: 200
       });
-    await sanityClient.mutate([
+    await sanity.mutate([
       {
         patch: {
           id: newsletter._id,

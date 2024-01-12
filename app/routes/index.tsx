@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getPostsByTag, sanity } from "~/data/sanityClient";
+import { getPostsByTag, sanity } from "~/data/sanityClient.server";
 import { Post } from "~/data/types";
 import LifeAni from "../animations/LifeAni";
 import Me from "../animations/Me";
