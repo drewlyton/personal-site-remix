@@ -1,7 +1,7 @@
 import { render } from "@react-email/render";
 import { LoaderArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { bundleMDX } from "mdx-bundler";
+import { bundleMDX } from "~/helpers/mdx.server";
 import { useEffect } from "react";
 import remarkGfm from "remark-gfm";
 import GetNewsletter from "~/data/GetNewsletter";

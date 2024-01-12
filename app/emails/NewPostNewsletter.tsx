@@ -7,10 +7,11 @@ import {
   Section,
   Text
 } from "@react-email/components";
-import { getMDXComponent } from "mdx-bundler/client";
+import { getMDXComponent } from "~/helpers/mdx.server";
 import type { PropsWithChildren } from "react";
 import type { Newsletter } from "~/data/Newsletter";
-import type Story from "~/data/Story";
+import { Post } from "~/data/types";
+import { imageBuilder } from "~/helpers/imageBuilder";
 
 type NewsletterEmailProps = Pick<Newsletter, "body" | "author" | "preview">;
 
@@ -62,7 +63,7 @@ const MDXBlockQuote: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-const MDXStory: React.FC<{ story: Story }> = ({ story }) => {
+const MDXStory: React.FC<{ story: Post }> = ({ story }) => {
   return (
     <Button
       href={`https://www.drewis.cool/story/${story.slug}?ref=newsletter`}
@@ -71,7 +72,7 @@ const MDXStory: React.FC<{ story: Story }> = ({ story }) => {
       <Section>
         <div className="border border-solid rounded-md border-gray-300 my-6">
           <Img
-            src={story.featuredImage.url}
+            src={imageBuilder.image(story.mainImage).url()}
             className="rounded-t-md"
             width={"100%"}
           />

@@ -1,39 +1,38 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useLocation } from "@remix-run/react";
-import { client } from "~/data/client";
-import GetStoriesByTag from "~/data/GetStoriesByTag";
-import type Story from "~/data/Story";
-import { metaTags } from "~/helpers/metaTags";
+import { useLoaderData } from "@remix-run/react";
+import { getPostsByTag, sanity } from "~/data/sanityClient.server";
+import { Post } from "~/data/types";
 import LifeAni from "../animations/LifeAni";
 import Me from "../animations/Me";
 import ProductAni from "../animations/ProductAni";
 import VideoAni from "../animations/VideoAni";
 import StoriesSection from "../components/StoriesSection";
 
-interface LoaderData {
-  productStories: Story[];
-  videoStories: Story[];
-  lifeStories: Story[];
-}
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const { stories: productStories }: { stories: Story[] } =
-    await client.request(GetStoriesByTag, {
-      tags: ["software", "design"]
-    });
-  const { stories: videoStories }: { stories: Story[] } = await client.request(
-    GetStoriesByTag,
-    {
-      tags: ["video", "entrepreneurship"]
-    }
-  );
-  const { stories: lifeStories }: { stories: Story[] } = await client.request(
-    GetStoriesByTag,
-    {
-      tags: ["life"]
-    }
-  );
+export async function loader() {
+  const { lifeStories, productStories, videoStories } = (await sanity.fetch(
+    `{
+      "lifeStories": ${getPostsByTag([
+        "life",
+        "career",
+        "comms"
+      ])}| order(publishedAt desc)[0..1],
+    "videoStories": ${getPostsByTag([
+      "writing",
+      "media",
+      "creators"
+    ])}| order(publishedAt desc)[0..1],
+    "productStories": ${getPostsByTag([
+      "product",
+      "engineering",
+      "entrepreneurship",
+      "startups",
+      "design",
+      "tech",
+      "remix",
+      "sanity"
+    ])}| order(publishedAt desc)[0..1],
+  }`
+  )) as { lifeStories: Post[]; productStories: Post[]; videoStories: Post[] };
 
   return json(
     { productStories, videoStories, lifeStories },
@@ -43,12 +42,11 @@ export const loader: LoaderFunction = async ({ request }) => {
       }
     }
   );
-};
+}
 
 export default function Index() {
   const { productStories, lifeStories, videoStories } =
-    useLoaderData<LoaderData>();
-  const { key } = useLocation();
+    useLoaderData<typeof loader>();
   return (
     <>
       <div>

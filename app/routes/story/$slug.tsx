@@ -8,9 +8,9 @@ import rehypePrism from "rehype-prism-plus";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { Subscribe } from "~/components/Subscribe";
-import GetStory from "~/data/GetStory";
-import type Story from "~/data/Story";
-import { client } from "~/data/client";
+import { imageBuilder } from "~/helpers/imageBuilder";
+import { getPostBySlug, sanity } from "~/data/sanityClient.server";
+import { Post } from "~/data/types";
 import { bundleMDX } from "~/helpers/mdx.server";
 import { metaTags } from "~/helpers/metaTags";
 import routes from "~/helpers/routes";
@@ -18,18 +18,14 @@ import katexCss from "~/styles/katex.css";
 import prismLine from "~/styles/prism-line-number.css";
 import prismTheme from "~/styles/prism-nightowl.css";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
+export async function loader({ params, request }: LoaderArgs) {
   const slug = params.slug as string;
-  const previewKey = new URL(request.url).searchParams.get("preview");
   if (!slug) {
     throw new Response("Not Found", {
       status: 404
     });
   }
-
-  const { story }: { story: Story } = await client.request(GetStory, {
-    slug
-  });
+  const story = (await sanity.fetch(getPostBySlug(slug))) as Post;
 
   // Handle event slugs which don't exist in our CMS
   if (!story) {
@@ -37,14 +33,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       status: 404
     });
   }
-  if (story.preview && previewKey !== process.env.PREVIEW) {
-    throw new Response("Not Found", {
-      status: 404
-    });
-  }
 
   const { code } = await bundleMDX({
-    source: story.mdx,
+    source: story.body,
     mdxOptions(options, frontmatter) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
@@ -72,7 +63,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       }
     }
   );
-};
+}
 
 export default function Slug() {
   const { story, mdxCode, refLink } = useLoaderData<typeof loader>();
@@ -83,7 +74,7 @@ export default function Slug() {
       <section className="top-section max-w-prose mx-auto">
         <div className="mb-2 w-full rounded-3xl overflow-clip">
           <img
-            src={story.featuredImage.url}
+            src={imageBuilder.image(story.mainImage).url()}
             alt={story.title + "image"}
             width="100%"
             loading="lazy"
@@ -106,7 +97,7 @@ export default function Slug() {
                     viewBox="0 0 16 16"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
                     />
                   </svg>
@@ -117,18 +108,6 @@ export default function Slug() {
             <h2 className="uppercase">{story.title}</h2>
           </div>
         </div>
-
-        {story.videoUrl && (
-          <div v-if="story.videoUrl" className="w-full mb-8">
-            <iframe
-              className="w-full aspect-video"
-              src={story.videoUrl}
-              title="YouTube video player"
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
-          </div>
-        )}
 
         <article
           className="
@@ -151,7 +130,7 @@ export default function Slug() {
           <div className="flex items-start space-x-4">
             <div>
               <img
-                src={story.author.picture.url}
+                src={imageBuilder.image(story.author.image).url()}
                 alt={story.author.name}
                 width="68px"
                 loading="lazy"
@@ -184,7 +163,7 @@ export default function Slug() {
 }
 
 export const meta: MetaFunction = ({ location, data }) => {
-  const { story } = data as { story: Story };
+  const { story } = data as { story: Post };
 
   return {
     charset: "utf-8",
@@ -192,7 +171,7 @@ export const meta: MetaFunction = ({ location, data }) => {
     ...metaTags({
       url: location.pathname,
       description: story.description,
-      coverImage: story.featuredImage.url,
+      coverImage: imageBuilder.image(story.mainImage).url(),
       title: story.title
     })
   };
@@ -202,21 +181,15 @@ export function links() {
   return [
     {
       rel: "stylesheet",
-      href: katexCss,
-      media: "print",
-      onload: "this.media='all'"
+      href: katexCss
     },
     {
       rel: "stylesheet",
-      href: prismLine,
-      media: "print",
-      onload: "this.media='all'"
+      href: prismLine
     },
     {
       rel: "stylesheet",
-      href: prismTheme,
-      media: "print",
-      onload: "this.media='all'"
+      href: prismTheme
     }
   ];
 }

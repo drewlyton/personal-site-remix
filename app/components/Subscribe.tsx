@@ -15,8 +15,6 @@ export const Subscribe: React.FC<{
     ? "error"
     : "idle";
 
-  console.log(data);
-
   return (
     <div className="bg-black bg-opacity-5 dark:bg-opacity-20 px-10 py-8 rounded-2xl mb-8">
       {noPreamble ? (

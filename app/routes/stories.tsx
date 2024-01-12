@@ -1,36 +1,31 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import StoryCard from "~/components/StoryCard";
-import { client } from "~/data/client";
-import GetHighlighted from "~/data/GetHighlighted";
-import GetStories from "~/data/GetStories";
-import type Story from "~/data/Story";
+import { getAllPosts, getPostsByTag, sanity } from "~/data/sanityClient.server";
+import { Post } from "~/data/types";
 import { filterStories } from "~/helpers/filterStories";
 
-interface LoaderData {
-  stories: Story[];
-  highlighted: Story[];
-}
-
-export const loader: LoaderFunction = async () => {
-  const { stories }: { stories: Story[] } = await client.request(GetStories);
-  const { stories: highlighted }: { stories: Story[] } = await client.request(
-    GetHighlighted
-  );
+export async function loader() {
+  const { all, highlighted } = (await sanity.fetch(
+    `{
+      "all": ${getAllPosts()}| order(publishedAt desc),
+    "highlighted": ${getPostsByTag(["highlighted"])}| order(publishedAt desc),
+  }`
+  )) as { all: Post[]; highlighted: Post[] };
   return json(
-    { stories, highlighted },
+    { all, highlighted },
     {
       headers: {
         "Cache-Control": "s-maxage:60, stale-while-revalidate"
       }
     }
   );
-};
+}
 
 export default function Stories() {
   const [searchString, setSearch] = useState("");
-  const { stories, highlighted } = useLoaderData<LoaderData>();
+  const { all, highlighted } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -40,7 +35,7 @@ export default function Stories() {
         </div>
         <div className="mx-auto max-w-prose">
           {highlighted.map((story) => (
-            <StoryCard story={story} key={story.id} />
+            <StoryCard story={story} key={story._id} />
           ))}
 
           <div className="px-2 mt-4">
@@ -81,8 +76,8 @@ export default function Stories() {
           </div>
 
           <div className="flex flex-wrap items-start">
-            {filterStories(stories, searchString).map((story) => (
-              <StoryCard story={story} key={story.id} />
+            {filterStories(all, searchString).map((story) => (
+              <StoryCard story={story} key={story._id} />
             ))}
           </div>
         </div>
