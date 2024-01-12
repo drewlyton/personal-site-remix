@@ -1,9 +1,9 @@
-import type Story from "~/data/Story";
+import { Post } from "~/data/types";
 
 export function filterStories(
-  storiesArray: Array<Story>,
+  storiesArray: Array<Post>,
   searchString: string
-): Array<Story> {
+): Array<Post> {
   if (!storiesArray) return [];
   return storiesArray.filter((story): Boolean => {
     return (

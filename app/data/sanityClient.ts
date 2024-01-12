@@ -13,7 +13,9 @@ export const imageBuilder = imageUrlBuilder(sanity);
 
 export function getPostsByTag(tags: string[]) {
   const tagsFilters = tags.map((t) => `"${t}" in tags[]->title`).join(" || ");
-  return `*[_type == "post" ${tagsFilters.length ? `&& ${tagsFilters}` : ""}] `;
+  return `*[_type == "post" ${
+    tagsFilters.length ? `&& ${tagsFilters}` : ""
+  }]{..., tags[]->{title}}`;
 }
 
 export function getAllPosts() {
