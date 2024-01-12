@@ -1,7 +1,7 @@
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { getMDXComponent } from "mdx-bundler/client";
+import { getMDXComponent } from "~/helpers/mdx.server";
 import { useMemo } from "react";
 import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";

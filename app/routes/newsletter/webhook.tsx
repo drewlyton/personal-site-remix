@@ -1,6 +1,6 @@
 import { render } from "@react-email/render";
 import { ActionArgs, json } from "@remix-run/node";
-import { bundleMDX } from "mdx-bundler";
+import { bundleMDX } from "~/helpers/mdx.server";
 import remarkGfm from "remark-gfm";
 import type { Newsletter } from "~/data/Newsletter";
 import { sanityClient } from "~/data/sanity";

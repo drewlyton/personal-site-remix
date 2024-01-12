@@ -4,6 +4,8 @@ import React from "react";
 import routes from "../helpers/routes";
 import { truncateString } from "../helpers/truncateString";
 import type Story from "../data/Story";
+import { Post } from "~/data/types";
+import { imageBuilder } from "~/data/sanityClient";
 
 const StoryCard: React.FC<Props> = ({ story }) => {
   return (
@@ -11,12 +13,12 @@ const StoryCard: React.FC<Props> = ({ story }) => {
       <Link to={routes.story(story.slug)}>
         <div
           className={classNames("mb-4 rounded-2xl overflow-hidden relative", {
-            featured: story.highlighted
+            featured: story.tags.find((t) => t.title === "highlighted")
           })}
         >
           <img
             className="w-full"
-            src={story.featuredImage.url}
+            src={imageBuilder.image(story.mainImage).url()}
             alt={`${story.title}`}
             loading="lazy"
           />
@@ -41,7 +43,7 @@ const StoryCard: React.FC<Props> = ({ story }) => {
 };
 
 type Props = {
-  story: Story;
+  story: Post;
 };
 
 export default StoryCard;
