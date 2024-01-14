@@ -19,6 +19,10 @@ export function getAllPosts() {
   return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current}`;
 }
 
+export function getPostsFeed() {
+  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, author->{...}, publishedAt}| order(publishedAt desc)`;
+}
+
 export function getPostBySlug(slug: string) {
   return `*[_type == "post" && slug.current match "${slug}" ][0]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, body, author->{...}, publishedAt}`;
 }

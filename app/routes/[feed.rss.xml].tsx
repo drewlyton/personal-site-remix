@@ -1,12 +1,12 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { getAllPosts, sanity } from "~/data/sanityClient.server";
+import { getPostsFeed, sanity } from "~/data/sanityClient.server";
 import { Post } from "~/data/types";
 import { feed } from "~/helpers/feed";
 import { getHost } from "~/helpers/getHost.server";
 import { imageBuilder } from "~/helpers/imageBuilder";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const stories = (await sanity.fetch(getAllPosts())) as Post[];
+  const stories = (await sanity.fetch(getPostsFeed())) as Post[];
 
   const origin = new URL(request.url).origin;
   const storyURL = (slug: string) =>
@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         date: new Date(publishedAt),
         author: [
           {
-            name: author.name,
+            name: author?.name || "Drew Lyton",
             email: "contact@drewis.cool"
           }
         ],
