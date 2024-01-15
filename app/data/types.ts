@@ -26,4 +26,5 @@ export type Post = {
   author: Author;
   publishedAt: string;
   tags: Tag[];
+  linkedinPost: string;
 };
