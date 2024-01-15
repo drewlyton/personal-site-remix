@@ -16,7 +16,7 @@ export function getPostsByTag(tags: string[]) {
 }
 
 export function getAllPosts() {
-  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current}`;
+  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, publishedAt}`;
 }
 
 export function getPostsFeed() {
