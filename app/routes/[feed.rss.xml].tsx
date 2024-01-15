@@ -57,7 +57,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "x-content-type-options": "nosniff",
-      "Content-Length": String(Buffer.byteLength(rss.rss2())),
       "Cache-Control": `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24}`
     }
   });
