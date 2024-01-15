@@ -10,7 +10,7 @@ export async function loader() {
   const { all, highlighted } = (await sanity.fetch(
     `{
       "all": ${getAllPosts()}| order(publishedAt desc),
-    "highlighted": ${getPostsByTag(["highlighted"])}| order(publishedAt desc),
+    "highlighted": ${getPostsByTag(["highlighted"])}[0...1],
   }`
   )) as { all: Post[]; highlighted: Post[] };
   return json(
