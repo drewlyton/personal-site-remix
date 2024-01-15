@@ -4,6 +4,7 @@ import { Post } from "~/data/types";
 import { feed } from "~/helpers/feed";
 import { getHost } from "~/helpers/getHost.server";
 import { imageBuilder } from "~/helpers/imageBuilder";
+import { XMLParser, XMLBuilder } from "fast-xml-parser";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const stories = (await sanity.fetch(getPostsFeed())) as Post[];
@@ -37,7 +38,22 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
   );
 
-  return new Response(rss.rss2(), {
+  const baseRss = rss.rss2();
+  // Convert rss xml to json
+  const parser = new XMLParser({ ignoreAttributes: false });
+  const baseJSON = parser.parse(baseRss);
+  // Add items to RSS for automatic crossposting to socials
+  stories.forEach((story, i) => {
+    baseJSON.rss.channel.item[i].linkedinPost = story.linkedinPost;
+  });
+
+  // Convert JSON back to XML
+  const builder = new XMLBuilder({
+    ignoreAttributes: false
+  });
+  const fullRSS = builder.build(baseJSON);
+
+  return new Response(fullRSS, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "x-content-type-options": "nosniff",
