@@ -14,6 +14,7 @@
     "start": "cross-env NODE_ENV=production netlify dev"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.44",
     "@netlify/functions": "^1.0.0",
     "@react-email/button": "0.0.10",
     "@react-email/components": "^0.0.7",
@@ -38,6 +39,7 @@
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.19.11",
+    "fast-xml-parser": "^4.3.3",
     "feed": "^4.2.2",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
