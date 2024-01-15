@@ -20,7 +20,7 @@ export function getAllPosts() {
 }
 
 export function getPostsFeed() {
-  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, author->{...}, publishedAt}| order(publishedAt desc)`;
+  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, linkedinPost, author->{...}, publishedAt}| order(publishedAt desc)`;
 }
 
 export function getPostBySlug(slug: string) {
