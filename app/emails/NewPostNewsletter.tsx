@@ -7,7 +7,7 @@ import {
   Section,
   Text
 } from "@react-email/components";
-import { getMDXComponent } from "~/helpers/mdx.server";
+import { getMDXComponent } from "mdx-bundler/client";
 import type { PropsWithChildren } from "react";
 import type { Newsletter } from "~/data/Newsletter";
 import { Post } from "~/data/types";

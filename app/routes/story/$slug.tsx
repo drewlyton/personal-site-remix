@@ -3,10 +3,6 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
-import rehypeKatex from "rehype-katex";
-import rehypePrism from "rehype-prism-plus";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
 import { Subscribe } from "~/components/Subscribe";
 import { imageBuilder } from "~/helpers/imageBuilder";
 import { getPostBySlug, sanity } from "~/data/sanityClient.server";
@@ -34,26 +30,7 @@ export async function loader({ params, request }: LoaderArgs) {
     });
   }
 
-  const { code } = await bundleMDX({
-    source: story.body,
-    mdxOptions(options, frontmatter) {
-      // this is the recommended way to add custom remark/rehype plugins:
-      // The syntax might look weird, but it protects you in case we add/remove
-      // plugins in the future.
-      options.remarkPlugins = [
-        ...(options.remarkPlugins ?? []),
-        remarkMath,
-        remarkGfm
-      ];
-      options.rehypePlugins = [
-        ...(options.rehypePlugins ?? []),
-        rehypeKatex,
-        rehypePrism
-      ];
-
-      return options;
-    }
-  });
+  const { code } = await bundleMDX(story.body);
 
   return json(
     { story, mdxCode: code, refLink: request.url },
