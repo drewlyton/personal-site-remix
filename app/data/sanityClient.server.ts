@@ -12,7 +12,7 @@ export function getPostsByTag(tags: string[]) {
   const tagsFilters = tags.map((t) => `"${t}" in tags[]->title`).join(" || ");
   return `*[_type == "post" ${
     tagsFilters.length ? `&& ${tagsFilters}` : ""
-  }]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current}`;
+  }]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current, publishedAt}`;
 }
 
 export function getAllPosts() {
@@ -25,4 +25,12 @@ export function getPostsFeed() {
 
 export function getPostBySlug(slug: string) {
   return `*[_type == "post" && slug.current match "${slug}" ][0]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current, 'body': coalesce(note->body, body), author->{...}, publishedAt}`;
+}
+
+export function getNoteById(id: string) {
+  return `*[_type == "note" && _id match "${id}" ][0]{_id, title, body, _updatedAt}`;
+}
+
+export function getAllNotes() {
+  return `*[_type == "note"]{_id, title, body, _updatedAt}`;
 }
