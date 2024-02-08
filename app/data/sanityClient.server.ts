@@ -12,17 +12,17 @@ export function getPostsByTag(tags: string[]) {
   const tagsFilters = tags.map((t) => `"${t}" in tags[]->title`).join(" || ");
   return `*[_type == "post" ${
     tagsFilters.length ? `&& ${tagsFilters}` : ""
-  }]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current}`;
+  }]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current}`;
 }
 
 export function getAllPosts() {
-  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, publishedAt}`;
+  return `*[_type == "post"]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current, publishedAt}`;
 }
 
 export function getPostsFeed() {
-  return `*[_type == "post"]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, linkedinPost, author->{...}, publishedAt}| order(publishedAt desc)`;
+  return `*[_type == "post"]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current, linkedinPost, author->{...}, publishedAt}| order(publishedAt desc)`;
 }
 
 export function getPostBySlug(slug: string) {
-  return `*[_type == "post" && slug.current match "${slug}" ][0]{_id, title, description, mainImage, tags[]->{title}, "slug": slug.current, body, author->{...}, publishedAt}`;
+  return `*[_type == "post" && slug.current match "${slug}" ][0]{_id, 'title': coalesce(note->title, title), description, mainImage, tags[]->{title}, "slug": slug.current, 'body': coalesce(note->body, body), author->{...}, publishedAt}`;
 }
