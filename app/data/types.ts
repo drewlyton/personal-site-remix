@@ -28,3 +28,10 @@ export type Post = {
   tags: Tag[];
   linkedinPost: string;
 };
+
+export type Note = {
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  body: string;
+};
