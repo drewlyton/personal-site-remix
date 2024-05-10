@@ -1,4 +1,4 @@
 {
   "conventionalCommits.scopes": ["Blog", "UI"],
-  "git.enableCommitSigning": true
+  "git.enableCommitSigning": false
 }
